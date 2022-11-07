@@ -27,7 +27,17 @@
     <argument
         android:name="item"
         app:argType="com.example.corona19vaccinemapservice.model.VaccineStations"/>
+        <action
+            android:id="@+id/action_mapFragment_to_vaccineStationDetailFragment"
+
+            app:destination="@id/vaccineStationDetailFragment" />
 
 
     </fragment>
+    <fragment
+        android:id="@+id/vaccineStationDetailFragment"
+        android:name="com.example.corona19vaccinemapservice.ui.VaccineStationDetailFragment"
+        android:label="vaccine_station_fragment"
+        tools:layout="@layout/vaccine_station_fragment" />
+
 </navigation>

@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         >
 
+
         <com.naver.maps.map.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
@@ -24,7 +25,175 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/black"
+                    android:id="@+id/main_title"
+                    android:background="@drawable/shape_main_title_white_radius_10"
+                    android:padding="10dp"
+                    app:layout_goneMarginTop="10dp"
+                    android:textSize="15sp"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_circle_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/main_title"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:src="@drawable/ic_location_on_black_24"
+                    android:padding="10dp"
+                    android:id="@+id/go_to_current_location"/>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:id="@+id/vaccineStationLayout"
+                    android:layout_marginHorizontal="15dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="안드로이드"
+                        android:id="@+id/centerName"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"/>
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/centerName"
+                        android:id="@+id/vaccineStationImg"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_outline_location_city_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/vaccineStationName"
+                        app:layout_constraintTop_toTopOf="@id/vaccineStationImg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="15dp"
+                        app:layout_constraintBottom_toTopOf="@id/vaccineStationAddress"
+                        tools:text="gdgdgd"
+                        android:layout_marginStart="20dp"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/vaccineStationName"
+                        app:layout_constraintBottom_toBottomOf="@id/vaccineStationImg"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="15dp"
+                        tools:text="경기도 파주"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:id="@+id/vaccineStationAddress"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/vaccineStationImg"
+                        app:layout_constraintStart_toStartOf="@id/vaccineStationImg"
+                        android:layout_marginTop="20dp"
+                        android:text="전화번호 : "
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/black"
+                        android:id="@+id/phoneNumberTxt"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/phoneNumberTxt"
+                        app:layout_constraintTop_toTopOf="@id/phoneNumberTxt"
+                        tools:text="010-2222-3333"
+                        android:textSize="10sp"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/black"
+                        android:id="@+id/Phonenumber"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/phoneNumberTxt"
+                        app:layout_constraintTop_toBottomOf="@id/phoneNumberTxt"
+                        android:text="최신화 날짜"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="20dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@id/Phonenumber"
+                        app:layout_constraintTop_toBottomOf="@id/Phonenumber"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp"
+                        tools:text="2012.1.1"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        android:id="@+id/updateAt"
+                        android:fontFamily="sans-serif-medium"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/updateAt"
+                        android:layout_marginTop="20dp"
+                        android:text="닫기"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/shape_yellow_radius_10"
+                        android:fontFamily="sans-serif-medium"
+                        android:id="@+id/VaccineStationExit"/>
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
         </com.naver.maps.map.MapView>
+
+
 
 
 
