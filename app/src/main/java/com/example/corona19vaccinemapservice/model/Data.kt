@@ -1,8 +1,11 @@
 package com.example.corona19vaccinemapservice.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Data(
     @SerializedName("address")
     val address: String?,
@@ -32,4 +35,4 @@ data class Data(
     val updatedAt: String?,
     @SerializedName("zipCode")
     val zipCode: String?
-)
+) : Parcelable

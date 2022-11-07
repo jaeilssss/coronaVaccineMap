@@ -1,4 +1,4 @@
-package com.example.corona19vaccinemapservice.UI
+package com.example.corona19vaccinemapservice.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

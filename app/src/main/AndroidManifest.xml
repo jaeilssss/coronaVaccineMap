@@ -18,18 +18,12 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="4recfo5hum" />
-        <activity android:name=".UI.LoadingActivity">
-
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
-        </activity>
-        <activity android:name=".UI.MainActivity">
-
         </activity>
     </application>
 

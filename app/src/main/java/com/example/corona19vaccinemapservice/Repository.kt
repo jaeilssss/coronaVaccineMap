@@ -1,6 +1,6 @@
 package com.example.corona19vaccinemapservice
 
-import com.example.corona19vaccinemapservice.Service.CoronaVaccineSearchService
+import com.example.corona19vaccinemapservice.service.CoronaVaccineSearchService
 import com.example.corona19vaccinemapservice.model.CoronaVaccineStationResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,10 +12,6 @@ object Repository {
 
 
     suspend fun getVaccineStation(page: Int): CoronaVaccineStationResponse? {
-        println("0--------00")
-        println(coronaVaccineSearchService
-            .getVaccineStationInfo(page,10,BuildConfig.CORONA_VACCINE_SEARCH_SERVICE_KEY)
-            .body())
         return  coronaVaccineSearchService
             .getVaccineStationInfo(page,10,BuildConfig.CORONA_VACCINE_SEARCH_SERVICE_KEY)
             .body()

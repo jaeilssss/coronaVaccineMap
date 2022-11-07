@@ -1,4 +1,4 @@
-package com.example.corona19vaccinemapservice.Service
+package com.example.corona19vaccinemapservice.service
 
 import com.example.corona19vaccinemapservice.model.CoronaVaccineStationResponse
 import retrofit2.Response
