@@ -1,5 +1,7 @@
 package com.example.corona19vaccinemapservice.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -15,6 +20,11 @@ import com.example.corona19vaccinemapservice.R
 import com.example.corona19vaccinemapservice.databinding.MapFragmentBinding
 import com.example.corona19vaccinemapservice.model.Data
 import com.example.corona19vaccinemapservice.model.VaccineStations
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -23,6 +33,9 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.util.FusedLocationSource
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
@@ -41,6 +54,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     private  var currentClickIndex=-1
 
+    private val REQUEST_LOCATION_CODE = 1000
+
+    private var cancellationTokenSource : CancellationTokenSource ? =null
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+
+    private val scope = MainScope()
     var count = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +75,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         navController = findNavController()
-
+        getCurrentLocation()
         val args : MapFragmentArgs by navArgs()
 
         val item = args.item
@@ -107,8 +127,79 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         }
     }
 
+    private fun permission(){
+        requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION),REQUEST_LOCATION_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+
+        println("grant size->")
+        println(grantResults.size)
+        if(grantResults.size>=2){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED &&
+                grantResults[1]==PackageManager.PERMISSION_GRANTED){
+
+                println("둘다 granted...")
+                getCurrentLocation()
+            }else{
+                println("뭐징...")
+            }
+        }
+
+    }
+
+    private fun getCurrentLocation(){
+        cancellationTokenSource = CancellationTokenSource()
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+        if (context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            } == PackageManager.PERMISSION_GRANTED && context?.let {
+                ActivityCompat.checkSelfPermission(
+                    it,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            } == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationProviderClient.getCurrentLocation(
+            LocationRequest.PRIORITY_HIGH_ACCURACY,
+                cancellationTokenSource!!.token
+            ).addOnSuccessListener {
+
+                scope.launch {
+                    println("--23-23-23-23-2-323-2")
+                    println(it.latitude)
+                    moveToMapCamera(it.latitude,it.longitude)
+                }
 
 
+            }.addOnFailureListener {
+                println("실퓨ㅐ")
+            }
+        }else{
+            println("여기인가??")
+            permission()
+        }
+
+
+    }
+
+    fun moveToMapCamera(lat : Double , lng : Double){
+
+
+        val camera = CameraUpdate.scrollTo(LatLng(lat,lng)).animate(CameraAnimation.Easing)
+        binding.mapView.getMapAsync {
+            it.moveCamera(camera)
+        }
+//        marker.map!!.moveCamera(camera)
+    }
     override fun onMapReady(p0: NaverMap) {
     }
 
@@ -118,8 +209,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
           var cindex = overlay.zIndex
           if(currentClickIndex!=cindex){
               var data = list[cindex]
-              val camera = CameraUpdate.scrollTo(LatLng(data.lat!!.toDouble(),data.lng!!.toDouble())).animate(CameraAnimation.Easing)
-              overlay.map!!.moveCamera(camera)
+//              val camera = CameraUpdate.scrollTo(LatLng(data.lat!!.toDouble(),data.lng!!.toDouble())).animate(CameraAnimation.Easing)
+//              overlay.map!!.moveCamera(camera)
+
+              moveToMapCamera(data.lat!!.toDouble(),data.lng!!.toDouble())
 
               binding.Phonenumber.setText(data.phoneNumber)
               binding.vaccineStationAddress.setText(data.address)
