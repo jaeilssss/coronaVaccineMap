@@ -68,7 +68,7 @@
                     android:layout_marginBottom="15dp"
                     android:background="@color/white"
                     android:padding="10dp"
-                    android:visibility="gone"
+                    android:visibility="@{model.layout}"
                     android:id="@+id/vaccineStationLayout"
                     android:layout_marginHorizontal="15dp">
                     <TextView
@@ -79,6 +79,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="안드로이드"
                         android:id="@+id/centerName"
+                        android:text="@{model.centerName}"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:fontFamily="sans-serif-medium"/>
@@ -102,6 +103,7 @@
                         app:layout_constraintBottom_toTopOf="@id/vaccineStationAddress"
                         tools:text="gdgdgd"
                         android:layout_marginStart="20dp"
+                        android:text="@{model.facilityName}"
                         android:textSize="10sp"
                         android:fontFamily="sans-serif-medium"
                         app:layout_constraintHorizontal_chainStyle="packed"
@@ -130,6 +132,7 @@
                         android:text="전화번호 : "
                         android:textSize="10sp"
                         android:fontFamily="sans-serif-medium"
+
                         android:textColor="@color/black"
                         android:id="@+id/phoneNumberTxt"/>
                     <TextView
@@ -138,6 +141,7 @@
                         app:layout_constraintStart_toEndOf="@id/phoneNumberTxt"
                         app:layout_constraintTop_toTopOf="@id/phoneNumberTxt"
                         tools:text="010-2222-3333"
+                        android:text="@{model.phoneNumber}"
                         android:textSize="10sp"
                         android:layout_marginStart="5dp"
                         android:fontFamily="sans-serif-medium"
@@ -161,6 +165,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="20dp"
                         tools:text="2012.1.1"
+                        android:text="@={model.updatedAt}"
                         android:textColor="@color/black"
                         android:textSize="10sp"
                         android:id="@+id/updateAt"

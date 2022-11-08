@@ -14,9 +14,12 @@ import com.example.corona19vaccinemapservice.Repository
 import com.example.corona19vaccinemapservice.databinding.LoadingFragmentBinding
 import com.example.corona19vaccinemapservice.model.Data
 import com.example.corona19vaccinemapservice.model.VaccineStations
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class LoadingFragment : Fragment() {
 
     companion object {
@@ -58,8 +61,6 @@ class LoadingFragment : Fragment() {
 
                 if(response?.data!=null){
                     map.put(i, response?.data!!)
-
-                    println(response?.data!!.get(0).centerName)
                 }
             }
         }
@@ -74,10 +75,10 @@ class LoadingFragment : Fragment() {
                 }
 
                     scope.launch {
-
-                        binding.progress.progress = count++
-                        binding.progressTxt.setText("${binding.progress.progress}%")
-
+                        viewModel.progress.value =count
+                        viewModel.progressStr.value = "$count%"
+                        binding.model = viewModel
+                        count++
                     }
 
 
@@ -86,7 +87,7 @@ class LoadingFragment : Fragment() {
                     goToNextView()
                     break
                 }
-                Thread.sleep(100)
+                Thread.sleep(400) //0.4초 간격으로 1%씩 증가
             }
         }).start()
 

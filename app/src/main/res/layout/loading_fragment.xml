@@ -46,6 +46,7 @@
             android:max="100"
             android:backgroundTint="#FBE7C6"
             android:progressTint="#EDBF41"
+            android:progress="@{model.progress}"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +59,9 @@
             android:fontFamily="sans-serif-medium"
             android:id="@+id/progressTxt"
             android:layout_marginTop="20dp"
+            android:text="@{model.progressStr}"
             />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

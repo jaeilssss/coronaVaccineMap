@@ -34,9 +34,12 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     companion object {
@@ -62,6 +65,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     private val scope = MainScope()
 
+    private var check = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +79,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MapViewModel::class.java)
+        binding.model = viewModel
         navController = findNavController()
         getCurrentLocation()
         val args : MapFragmentArgs by navArgs()
@@ -105,9 +110,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         var index=0
         for(key in stationMap.keys){
             var data = stationMap[key]
-
-
-
             for(i in data!!.indices){
                 var marker = Marker()
                 list.add(data[i])
@@ -122,6 +124,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 marker.setOnClickListener(this)
                 marker.width = 140
                 marker.height = 140
+                marker.captionText = data[i].facilityName!!
                 binding.mapView.getMapAsync {
                     marker.map = it
                 }
@@ -146,7 +149,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         if(grantResults.size>=2){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED &&
                 grantResults[1]==PackageManager.PERMISSION_GRANTED){
-
 
                 getCurrentLocation()
             }else{
@@ -177,6 +179,22 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
             ).addOnSuccessListener {
 
                 scope.launch {
+                    if(!check){ //최초 내 위치 좌표 획득했을 경우
+                        var marker = Marker()
+
+                        marker.width = 140
+                        marker.height = 140
+                        marker.icon = OverlayImage.fromResource(R.drawable.ic_location_on_black_24)
+                        marker.captionText = "내 위치"
+                        marker.position = LatLng(it.latitude,it.longitude)
+                        binding.mapView.getMapAsync {
+                            marker.map = it
+                        }
+                        check  = true
+                    }
+
+
+
                     moveToMapCamera(it.latitude,it.longitude)
                 }
 
@@ -200,7 +218,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         binding.mapView.getMapAsync {
             it.moveCamera(camera)
         }
-//        marker.map!!.moveCamera(camera)
     }
     override fun onMapReady(p0: NaverMap) {
     }
@@ -211,17 +228,23 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
           var cindex = overlay.zIndex
           if(currentClickIndex!=cindex){
               var data = list[cindex]
-//              val camera = CameraUpdate.scrollTo(LatLng(data.lat!!.toDouble(),data.lng!!.toDouble())).animate(CameraAnimation.Easing)
-//              overlay.map!!.moveCamera(camera)
+
 
               moveToMapCamera(data.lat!!.toDouble(),data.lng!!.toDouble())
 
-              binding.Phonenumber.setText(data.phoneNumber)
-              binding.vaccineStationAddress.setText(data.address)
-              binding.centerName.setText(data.centerName)
-              binding.vaccineStationName.setText(data.facilityName)
-              binding.updateAt.setText(data.updatedAt)
-              binding.vaccineStationLayout.visibility = View.VISIBLE
+
+              viewModel.phoneNumber.value = data.phoneNumber
+              viewModel.address.value = data.address
+
+              viewModel.centerName.value = data.centerName
+              viewModel.facilityName.value = data.facilityName
+
+
+              viewModel.updatedAt.value = data.updatedAt
+
+              viewModel.layout.value = View.VISIBLE
+              binding.model = viewModel
+
               currentClickIndex = cindex
 
               if(data.centerType=="중앙/권역"){
@@ -233,7 +256,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
           }else{
               currentClickIndex = -1
 
-              binding.vaccineStationLayout.visibility = View.GONE
+              viewModel.layout.value = View.GONE
+              binding.model = viewModel
           }
 
 
