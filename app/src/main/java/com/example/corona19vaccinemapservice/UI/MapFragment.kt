@@ -61,7 +61,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
 
     private val scope = MainScope()
-    var count = 0
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,6 +92,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
             binding.vaccineStationLayout.visibility = View.GONE
         }
 
+        binding.goToCurrentLocation.setOnClickListener{
+
+            getCurrentLocation()
+        }
     }
 
 
@@ -138,16 +143,14 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         grantResults: IntArray
     ) {
 
-        println("grant size->")
-        println(grantResults.size)
         if(grantResults.size>=2){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED &&
                 grantResults[1]==PackageManager.PERMISSION_GRANTED){
 
-                println("둘다 granted...")
+
                 getCurrentLocation()
             }else{
-                println("뭐징...")
+
             }
         }
 
@@ -174,8 +177,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
             ).addOnSuccessListener {
 
                 scope.launch {
-                    println("--23-23-23-23-2-323-2")
-                    println(it.latitude)
                     moveToMapCamera(it.latitude,it.longitude)
                 }
 
@@ -184,8 +185,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 println("실퓨ㅐ")
             }
         }else{
-            println("여기인가??")
-            permission()
+//            Toast.makeText(context,"")
+
+        permission()
         }
 
 

@@ -15,13 +15,28 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/progress"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-black"
+            android:background="@drawable/shape_main_title_white_radius_10"
+            android:padding="10dp"
+            android:textStyle="bold"/>
 
         <ProgressBar
             android:id="@+id/progress"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,6 +47,19 @@
             android:backgroundTint="#FBE7C6"
             android:progressTint="#EDBF41"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progress"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:id="@+id/progressTxt"
+            android:layout_marginTop="20dp"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

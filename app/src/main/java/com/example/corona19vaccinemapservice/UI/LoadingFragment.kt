@@ -48,7 +48,6 @@ class LoadingFragment : Fragment() {
         getVaccineStationInfo()
 
         increaseProgressBar()
-        // TODO: Use the ViewModel
     }
 
     private fun getVaccineStationInfo(){
@@ -74,7 +73,14 @@ class LoadingFragment : Fragment() {
                     continue
                 }
 
-                    binding.progress.progress = count++
+                    scope.launch {
+
+                        binding.progress.progress = count++
+                        binding.progressTxt.setText("${binding.progress.progress}%")
+
+                    }
+
+
 
                 if(count>100) {
                     goToNextView()
@@ -89,7 +95,6 @@ class LoadingFragment : Fragment() {
 
     private fun goToNextView(){
         scope.launch {
-
             val navAction = LoadingFragmentDirections.actionLoadingFragmentToMapFragment(VaccineStations(map))
             navController.navigate(navAction)
 
