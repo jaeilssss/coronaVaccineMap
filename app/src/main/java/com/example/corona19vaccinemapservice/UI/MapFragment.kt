@@ -72,7 +72,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater,R.layout.map_fragment,container,false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.map_fgit ragment,container,false)
         return binding.root
     }
 
