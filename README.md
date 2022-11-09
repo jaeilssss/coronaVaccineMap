@@ -8,3 +8,29 @@ width="300" height="500">
 <br>
 ---
 
+
+### 활용 기술 <br>
+
+* Language<br>
+ * Kotlin<br>
+ <br>
+* Design Pattern<br>
+ * MVVM <br>
+<br>
+* NetWort<br>
+ * Retrofit2 <br><br>
+ 
+* Jet Pack<br>
+ * Navigation Component <br>
+ * DataBinding
+ <br><br>
+ 
+* API<br>
+ * 공공데이터활용지원센터_코로나19 예방접종센터 조회서비스API <br>
+ * Naver Map API<br><br>
+* 비동기<br>
+ * Coroutine Flow <br><br>
+ 
+* 기타 <br>
+ * Hilt<br>
+ * FusedLocationProviderClient (현재 위치 좌표 )
